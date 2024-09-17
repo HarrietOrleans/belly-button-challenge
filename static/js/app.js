@@ -59,14 +59,24 @@ function buildCharts(sample) {
     Plotly.newPlot("bubble-chart", bubbleData, bubbleLayout);
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
-    let yticks - otu_ids.slice(0,10).map(id => "OTU ${id}").reverse();
+    let yticks = otu_ids.slice(0,10).map(id => "OTU ${id}").reverse();
 
     // Build a Bar Chart
     // Don't forget to slice and reverse the input data appropriately
-
+    let barData = [{
+      x: sample_values.slice(0,10).reverse(),
+      y: yticks,
+      text: otu_labels.slice(0,10).reverse(),
+      type:"bar",
+      orientation: 'h'
+    }];
 
     // Render the Bar Chart
-
+  let barLayout = {
+    title: "Top 10 Bacteria Cultures Found",
+    margin:{t:30, 1:150}
+  };
+  Plotly.newPlot("bar-chart", barData,barLayout);
   });
 }
 
@@ -75,10 +85,10 @@ function init() {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
     // Get the names field
-
+    let sampleNames = data.names;
 
     // Use d3 to select the dropdown with id of `#selDataset`
-
+    let dropdownMenu = d3.select(`#selDataset`);
 
     // Use the list of sample names to populate the select options
     // Hint: Inside a loop, you will need to use d3 to append a new
