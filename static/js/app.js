@@ -17,7 +17,7 @@ function buildMetadata(sample) {
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
     Object.entries(result).forEach(([key, value]) => {
-      panel.append("h6").text(`${key.toUpperCase()}: ${value}`);
+      panel.append("h6").text(`${key}: ${value}`);
     });
   });
 }
@@ -59,14 +59,14 @@ function buildCharts(sample) {
     Plotly.newPlot("bubble-chart", bubbleData, bubbleLayout);
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
-    let yticks = otu_ids.slice(0,10).map(id => "OTU ${id}").reverse();
+    let yticks = otu_ids.slice(0, 10).map(id => 'OTU ${id}').reverse();
 
     // Build a Bar Chart
     // Don't forget to slice and reverse the input data appropriately
     let barData = [{
-      x: sample_values.slice(0,10).reverse(),
+      x: sample_values.slice(0, 10).reverse(),
       y: yticks,
-      text: otu_labels.slice(0,10).reverse(),
+      text: otu_labels.slice(0, 10).reverse(),
       type:"bar",
       orientation: 'h'
     }];
@@ -74,9 +74,10 @@ function buildCharts(sample) {
     // Render the Bar Chart
   let barLayout = {
     title: "Top 10 Bacteria Cultures Found",
-    margin:{t:30, 1:150}
+    margin:{t: 30, 1: 150}
   };
-  Plotly.newPlot("bar-chart", barData,barLayout);
+
+    Plotly.newPlot("bar-chart", barData,barLayout);
   });
 }
 
@@ -93,21 +94,29 @@ function init() {
     // Use the list of sample names to populate the select options
     // Hint: Inside a loop, you will need to use d3 to append a new
     // option for each sample name.
-
+    sampleNames.forEach((sample) => {
+      dropdownMenu.append("option").text(sample).property("value", sample);
+    });
 
     // Get the first sample from the list
-
+    let firstSample = sampleNames[0];
 
     // Build charts and metadata panel with the first sample
-
+    buildCharts(firstSample);
+    buildMetadata(firstSample);
   });
 }
 
 // Function for event listener
 function optionChanged(newSample) {
   // Build charts and metadata panel each time a new sample is selected
-
+  buildCharts(newSample);
+  buildMetadata(newSample);
 }
 
 // Initialize the dashboard
 init();
+
+console.log(result);
+console.log(otu_ids);
+console.log(sample_values);
