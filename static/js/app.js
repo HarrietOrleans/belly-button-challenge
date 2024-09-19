@@ -56,7 +56,7 @@ function buildCharts(sample) {
       margin:{t: 30}
     };
 
-    Plotly.newPlot("bubble-chart", bubbleData, bubbleLayout);
+    Plotly.newPlot("bubble", bubbleData, bubbleLayout);
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
     let yticks = otu_ids.slice(0, 10).map(id => 'OTU ${id}').reverse();
@@ -77,7 +77,7 @@ function buildCharts(sample) {
     margin:{t: 30, 1: 150}
   };
 
-    Plotly.newPlot("bar-chart", barData,barLayout);
+    Plotly.newPlot("bar", barData,barLayout);
   });
 }
 
